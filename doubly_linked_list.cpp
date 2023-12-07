@@ -23,30 +23,6 @@ void InsertAtHead(int data, Node** root){
     return;
 }
 
-void InsertAtTail(int data, Node** root){
-    
-    Node* newNode = new Node;
-    newNode -> data = data;
-    
-    //edge case
-    if(*root == NULL){
-        *root = newNode;
-        return;
-    }
-    
-    //traverse to end 
-    Node* temp = *root;
-    while(temp->next != NULL){
-        temp = temp -> next;
-    }
-    
-    //append newNode
-    newNode -> prev = temp;
-    temp -> next = newNode;
-    return;
-
-}
-
 void Print(Node* root){
     Node* temp = root;
     cout << "Printing the list" << endl;
@@ -76,6 +52,27 @@ void ReversePrint(Node* root){
     return;
 }
 
+void ReverseDLL(Node** root){
+    // inp : 8 6 4 2 NULL 
+    // oup : 2 4 6 8 NULL 
+    Node* temp = *root;
+    Node* temp2;
+    while(temp -> next != NULL){
+        temp2 = temp -> next;
+        temp -> next = temp -> prev;
+        temp -> prev = temp2;
+        temp = temp2;
+    }
+    
+    temp2 = temp -> next;
+    temp -> next = temp -> prev;
+    temp -> prev = temp2;
+    
+    *root = temp;
+    
+    return;
+}
+
 int main()
 {
     Node* root;
@@ -83,9 +80,9 @@ int main()
     InsertAtHead(4, &root);
     InsertAtHead(6, &root);
     InsertAtHead(8, &root);
-    InsertAtTail(10, &root);
+    Print(root);
+    ReverseDLL(&root);
     Print(root);
     
-    ReversePrint(root);
     return 0;
 }
